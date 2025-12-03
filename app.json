@@ -2,16 +2,25 @@
   "expo": {
     "name": "CellSync",
     "slug": "cellsync-mobile",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#6366f1"
     },
+    "scheme": "cellsync",
+    "owner": "cellsync",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.okcells.cellsync",
+      "buildNumber": "3"
+    },
     "android": {
       "package": "com.okcells.cellsync",
+      "versionCode": 3,
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#6366f1"
@@ -21,7 +30,6 @@
       "eas": {
         "projectId": "6d5b3bb2-512e-4198-b51f-38ee371b19d7"
       }
-    },
-    "owner": "cellsync"
+    }
   }
 }
