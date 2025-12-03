@@ -111,9 +111,9 @@ export default function PDVScreen() {
                 <View style={styles.productInfo}>
                   <Title style={styles.productName}>{produto.nome}</Title>
                   <View style={styles.productMeta}>
-                    <Chip style={styles.categoryChip} textStyle={styles.categoryText}>
-                      {produto.categoria}
-                    </Chip>
+                    <View style={styles.categoryChip}>
+                      <Paragraph style={styles.categoryText}>{produto.categoria}</Paragraph>
+                    </View>
                     <View style={styles.stockInfo}>
                       <Ionicons name="cube-outline" size={12} color="#6b7280" />
                       <Paragraph style={styles.stock}> {produto.estoque} un.</Paragraph>
@@ -306,17 +306,19 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: 'bold',
     color: '#1f2937',
-    marginBottom: 6,
+    marginBottom: 4,
   },
   productMeta: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
-    marginBottom: 6,
+    marginBottom: 8,
   },
   categoryChip: {
     backgroundColor: '#ede9fe',
-    height: 22,
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 6,
+    marginRight: 8,
   },
   categoryText: {
     fontSize: 10,
