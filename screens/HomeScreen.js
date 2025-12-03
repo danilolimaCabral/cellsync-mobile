@@ -1,143 +1,109 @@
 import React from 'react';
-import { View, ScrollView, StyleSheet } from 'react-native';
-import { Card, Title, Paragraph, Button, Surface } from 'react-native-paper';
+import { View, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import { Card, Title, Paragraph, Surface } from 'react-native-paper';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 
 export default function HomeScreen({ navigation }) {
   const stats = [
-    { 
-      title: 'Vendas Hoje', 
-      value: 'R$ 2.450,00', 
-      icon: 'trending-up',
-      gradient: ['#10b981', '#059669'],
-      bgGradient: ['#d1fae5', '#a7f3d0']
-    },
-    { 
-      title: 'OS Abertas', 
-      value: '12', 
-      icon: 'construct',
-      gradient: ['#f59e0b', '#d97706'],
-      bgGradient: ['#fef3c7', '#fde68a']
-    },
-    { 
-      title: 'Produtos', 
-      value: '248', 
-      icon: 'cube',
-      gradient: ['#8b5cf6', '#7c3aed'],
-      bgGradient: ['#ede9fe', '#ddd6fe']
-    },
-    { 
-      title: 'Clientes', 
-      value: '156', 
-      icon: 'people',
-      gradient: ['#ec4899', '#db2777'],
-      bgGradient: ['#fce7f3', '#fbcfe8']
-    },
+    { label: 'Vendas Hoje', value: 'R$ 2.450', icon: 'trending-up', colors: ['#10b981', '#059669'] },
+    { label: 'OS Abertas', value: '12', icon: 'construct', colors: ['#f59e0b', '#d97706'] },
+    { label: 'Produtos', value: '248', icon: 'cube', colors: ['#8b5cf6', '#7c3aed'] },
+    { label: 'Clientes', value: '156', icon: 'people', colors: ['#ec4899', '#db2777'] },
   ];
 
   const quickActions = [
-    {
-      title: 'Nova Venda',
-      icon: 'cart',
-      gradient: ['#10b981', '#059669'],
-      screen: 'PDV'
-    },
-    {
-      title: 'Nova OS',
-      icon: 'construct',
-      gradient: ['#f59e0b', '#d97706'],
-      screen: 'OS'
-    },
-    {
-      title: 'Novo Cliente',
-      icon: 'person-add',
-      gradient: ['#8b5cf6', '#7c3aed'],
-      screen: 'Clientes'
-    },
-    {
-      title: 'Ver Estoque',
-      icon: 'cube',
-      gradient: ['#ec4899', '#db2777'],
-      screen: 'Estoque'
-    },
+    { label: 'Nova Venda', icon: 'cart', colors: ['#10b981', '#059669'], screen: 'PDV' },
+    { label: 'Nova OS', icon: 'construct', colors: ['#f59e0b', '#d97706'], screen: 'OS' },
+    { label: 'Novo Cliente', icon: 'person-add', colors: ['#8b5cf6', '#7c3aed'], screen: 'Clientes' },
+    { label: 'Ver Estoque', icon: 'cube', colors: ['#ec4899', '#db2777'], screen: 'Estoque' },
   ];
 
   return (
     <ScrollView style={styles.container}>
-      {/* Header com gradiente */}
-      <LinearGradient
-        colors={['#8b5cf6', '#7c3aed', '#6d28d9']}
-        style={styles.header}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-      >
-        <Title style={styles.headerTitle}>✨ CellSync Mobile</Title>
-        <Paragraph style={styles.headerSubtitle}>
-          Sistema de Gestão Profissional
-        </Paragraph>
-      </LinearGradient>
-
-      {/* Cards de estatísticas com gradiente */}
+      {/* Stats Grid - 2x2 compacto */}
       <View style={styles.statsGrid}>
         {stats.map((stat, index) => (
-          <Surface key={index} style={styles.statCard} elevation={3}>
+          <Surface key={index} style={styles.statCard} elevation={2}>
             <LinearGradient
-              colors={stat.bgGradient}
-              style={styles.statCardGradient}
+              colors={stat.colors}
+              style={styles.statGradient}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 1 }}
             >
-              <View style={styles.statCardContent}>
-                <View style={styles.statIconContainer}>
-                  <LinearGradient
-                    colors={stat.gradient}
-                    style={styles.statIcon}
-                    start={{ x: 0, y: 0 }}
-                    end={{ x: 1, y: 1 }}
-                  >
-                    <Ionicons name={stat.icon} size={24} color="#fff" />
-                  </LinearGradient>
-                </View>
-                <View style={styles.statTextContainer}>
-                  <Paragraph style={styles.statLabel}>{stat.title}</Paragraph>
-                  <Title style={styles.statValue}>{stat.value}</Title>
-                </View>
-              </View>
+              <Ionicons name={stat.icon} size={24} color="#fff" />
+              <Paragraph style={styles.statLabel}>{stat.label}</Paragraph>
+              <Title style={styles.statValue}>{stat.value}</Title>
             </LinearGradient>
           </Surface>
         ))}
       </View>
 
-      {/* Ações rápidas com botões modernos */}
-      <View style={styles.quickActionsSection}>
-        <Title style={styles.sectionTitle}>🚀 Ações Rápidas</Title>
-        
+      {/* Quick Actions */}
+      <View style={styles.section}>
+        <Title style={styles.sectionTitle}>⚡ Ações Rápidas</Title>
         <View style={styles.actionsGrid}>
           {quickActions.map((action, index) => (
-            <Surface key={index} style={styles.actionCard} elevation={2}>
-              <Button
-                mode="contained"
-                onPress={() => navigation.navigate(action.screen)}
-                style={styles.actionButton}
-                contentStyle={styles.actionButtonContent}
-                labelStyle={styles.actionButtonLabel}
+            <TouchableOpacity 
+              key={index} 
+              style={styles.actionButton}
+              onPress={() => navigation?.navigate(action.screen)}
+            >
+              <LinearGradient
+                colors={action.colors}
+                style={styles.actionGradient}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
               >
-                <LinearGradient
-                  colors={action.gradient}
-                  style={styles.actionButtonGradient}
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 1 }}
-                >
-                  <Ionicons name={action.icon} size={28} color="#fff" />
-                  <Paragraph style={styles.actionButtonText}>
-                    {action.title}
-                  </Paragraph>
-                </LinearGradient>
-              </Button>
-            </Surface>
+                <Ionicons name={action.icon} size={22} color="#fff" />
+                <Paragraph style={styles.actionLabel}>{action.label}</Paragraph>
+              </LinearGradient>
+            </TouchableOpacity>
           ))}
         </View>
+      </View>
+
+      {/* Atividades Recentes */}
+      <View style={styles.section}>
+        <Title style={styles.sectionTitle}>📋 Atividades Recentes</Title>
+        
+        <Surface style={styles.activityCard} elevation={1}>
+          <View style={styles.activityItem}>
+            <View style={[styles.activityIcon, { backgroundColor: '#10b981' }]}>
+              <Ionicons name="checkmark-circle" size={18} color="#fff" />
+            </View>
+            <View style={styles.activityInfo}>
+              <Paragraph style={styles.activityTitle}>Venda finalizada</Paragraph>
+              <Paragraph style={styles.activityTime}>Há 5 minutos</Paragraph>
+            </View>
+            <Paragraph style={styles.activityValue}>R$ 6.999</Paragraph>
+          </View>
+        </Surface>
+
+        <Surface style={styles.activityCard} elevation={1}>
+          <View style={styles.activityItem}>
+            <View style={[styles.activityIcon, { backgroundColor: '#f59e0b' }]}>
+              <Ionicons name="construct" size={18} color="#fff" />
+            </View>
+            <View style={styles.activityInfo}>
+              <Paragraph style={styles.activityTitle}>Nova OS criada</Paragraph>
+              <Paragraph style={styles.activityTime}>Há 15 minutos</Paragraph>
+            </View>
+            <Paragraph style={styles.activityValue}>#1234</Paragraph>
+          </View>
+        </Surface>
+
+        <Surface style={styles.activityCard} elevation={1}>
+          <View style={styles.activityItem}>
+            <View style={[styles.activityIcon, { backgroundColor: '#8b5cf6' }]}>
+              <Ionicons name="person-add" size={18} color="#fff" />
+            </View>
+            <View style={styles.activityInfo}>
+              <Paragraph style={styles.activityTitle}>Cliente cadastrado</Paragraph>
+              <Paragraph style={styles.activityTime}>Há 1 hora</Paragraph>
+            </View>
+          </View>
+        </Surface>
       </View>
     </ScrollView>
   );
@@ -148,114 +114,104 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f9fafb',
   },
-  header: {
-    padding: 24,
-    paddingTop: 16,
-    paddingBottom: 32,
-  },
-  headerTitle: {
-    color: '#fff',
-    fontSize: 28,
-    fontWeight: 'bold',
-    marginBottom: 8,
-    textShadowColor: 'rgba(0, 0, 0, 0.2)',
-    textShadowOffset: { width: 0, height: 2 },
-    textShadowRadius: 4,
-  },
-  headerSubtitle: {
-    color: '#e9d5ff',
-    fontSize: 15,
-    fontWeight: '500',
-  },
   statsGrid: {
-    padding: 16,
-    marginTop: -20,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    padding: 12,
+    gap: 10,
   },
   statCard: {
-    marginBottom: 16,
-    borderRadius: 16,
+    width: '48%',
+    borderRadius: 14,
     overflow: 'hidden',
   },
-  statCardGradient: {
-    padding: 16,
-    borderRadius: 16,
-  },
-  statCardContent: {
-    flexDirection: 'row',
+  statGradient: {
+    padding: 14,
     alignItems: 'center',
-  },
-  statIconContainer: {
-    marginRight: 16,
-  },
-  statIcon: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
+    minHeight: 110,
     justifyContent: 'center',
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 8,
-    elevation: 4,
-  },
-  statTextContainer: {
-    flex: 1,
   },
   statLabel: {
-    fontSize: 13,
-    color: '#6b7280',
-    marginBottom: 4,
-    fontWeight: '600',
+    color: '#fff',
+    fontSize: 11,
+    marginTop: 6,
+    textAlign: 'center',
+    opacity: 0.95,
+    fontWeight: '500',
   },
   statValue: {
-    fontSize: 26,
+    color: '#fff',
+    fontSize: 20,
     fontWeight: 'bold',
-    color: '#1f2937',
+    marginTop: 2,
   },
-  quickActionsSection: {
-    padding: 16,
-    paddingTop: 8,
+  section: {
+    padding: 14,
+    paddingTop: 4,
   },
   sectionTitle: {
-    fontSize: 22,
+    fontSize: 17,
     fontWeight: 'bold',
-    marginBottom: 16,
     color: '#1f2937',
+    marginBottom: 10,
   },
   actionsGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-between',
-  },
-  actionCard: {
-    width: '48%',
-    marginBottom: 16,
-    borderRadius: 16,
-    overflow: 'hidden',
+    gap: 10,
   },
   actionButton: {
-    borderRadius: 16,
+    width: '48%',
+    borderRadius: 12,
     overflow: 'hidden',
   },
-  actionButtonContent: {
-    height: 120,
-  },
-  actionButtonGradient: {
-    flex: 1,
-    justifyContent: 'center',
+  actionGradient: {
+    padding: 14,
     alignItems: 'center',
-    padding: 16,
+    minHeight: 80,
+    justifyContent: 'center',
   },
-  actionButtonText: {
+  actionLabel: {
     color: '#fff',
-    fontSize: 14,
-    fontWeight: 'bold',
-    marginTop: 8,
+    fontSize: 12,
+    fontWeight: '600',
+    marginTop: 6,
     textAlign: 'center',
   },
-  actionButtonLabel: {
-    margin: 0,
-    padding: 0,
+  activityCard: {
+    borderRadius: 10,
+    marginBottom: 8,
+    backgroundColor: '#fff',
+  },
+  activityItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 10,
+    gap: 10,
+  },
+  activityIcon: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  activityInfo: {
+    flex: 1,
+  },
+  activityTitle: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: '#1f2937',
+    marginBottom: 2,
+  },
+  activityTime: {
+    fontSize: 11,
+    color: '#9ca3af',
+  },
+  activityValue: {
+    fontSize: 13,
+    fontWeight: 'bold',
+    color: '#10b981',
   },
 });

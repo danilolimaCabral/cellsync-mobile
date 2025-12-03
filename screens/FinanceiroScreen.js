@@ -26,52 +26,40 @@ export default function FinanceiroScreen() {
 
   return (
     <View style={styles.container}>
-      {/* Cards de resumo financeiro */}
+      {/* Cards de resumo */}
       <View style={styles.resumoSection}>
-        <Surface style={styles.resumoCard} elevation={4}>
-          <LinearGradient
-            colors={['#10b981', '#059669']}
-            style={styles.resumoGradient}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-          >
-            <View style={styles.resumoHeader}>
-              <Ionicons name="trending-up" size={32} color="#fff" />
+        <View style={styles.resumoRow}>
+          <Surface style={styles.resumoCard} elevation={2}>
+            <LinearGradient
+              colors={['#10b981', '#059669']}
+              style={styles.resumoGradient}
+            >
+              <Ionicons name="trending-up" size={24} color="#fff" />
               <Paragraph style={styles.resumoLabel}>Receitas</Paragraph>
-            </View>
-            <Title style={styles.resumoValue}>R$ {receitas.toFixed(2)}</Title>
-          </LinearGradient>
-        </Surface>
+              <Title style={styles.resumoValue}>R$ {receitas.toFixed(0)}</Title>
+            </LinearGradient>
+          </Surface>
 
-        <Surface style={styles.resumoCard} elevation={4}>
-          <LinearGradient
-            colors={['#ef4444', '#dc2626']}
-            style={styles.resumoGradient}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-          >
-            <View style={styles.resumoHeader}>
-              <Ionicons name="trending-down" size={32} color="#fff" />
+          <Surface style={styles.resumoCard} elevation={2}>
+            <LinearGradient
+              colors={['#ef4444', '#dc2626']}
+              style={styles.resumoGradient}
+            >
+              <Ionicons name="trending-down" size={24} color="#fff" />
               <Paragraph style={styles.resumoLabel}>Despesas</Paragraph>
-            </View>
-            <Title style={styles.resumoValue}>R$ {despesas.toFixed(2)}</Title>
-          </LinearGradient>
-        </Surface>
+              <Title style={styles.resumoValue}>R$ {despesas.toFixed(0)}</Title>
+            </LinearGradient>
+          </Surface>
+        </View>
 
-        <Surface style={styles.saldoCard} elevation={4}>
+        <Surface style={styles.saldoCard} elevation={2}>
           <LinearGradient
             colors={saldo >= 0 ? ['#8b5cf6', '#7c3aed'] : ['#f59e0b', '#d97706']}
             style={styles.saldoGradient}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
           >
-            <View style={styles.saldoHeader}>
-              <Ionicons name="wallet" size={36} color="#fff" />
-              <Paragraph style={styles.saldoLabel}>Saldo do Período</Paragraph>
-            </View>
-            <Title style={styles.saldoValue}>
-              R$ {saldo.toFixed(2)}
-            </Title>
+            <Ionicons name="wallet" size={28} color="#fff" />
+            <Paragraph style={styles.saldoLabel}>Saldo do Período</Paragraph>
+            <Title style={styles.saldoValue}>R$ {saldo.toFixed(2)}</Title>
             <Paragraph style={styles.saldoSubtext}>
               {saldo >= 0 ? '✓ Positivo' : '⚠ Atenção'}
             </Paragraph>
@@ -85,9 +73,9 @@ export default function FinanceiroScreen() {
           value={filter}
           onValueChange={setFilter}
           buttons={[
-            { value: 'todos', label: 'Todos', icon: 'format-list-bulleted' },
-            { value: 'receita', label: 'Receitas', icon: 'arrow-up-circle' },
-            { value: 'despesa', label: 'Despesas', icon: 'arrow-down-circle' },
+            { value: 'todos', label: 'Todos' },
+            { value: 'receita', label: 'Receitas' },
+            { value: 'despesa', label: 'Despesas' },
           ]}
           style={styles.segmentedButtons}
         />
@@ -98,61 +86,39 @@ export default function FinanceiroScreen() {
         <Title style={styles.sectionTitle}>📊 Lançamentos</Title>
         {filteredLancamentos.map(lancamento => {
           const isReceita = lancamento.tipo === 'receita';
-          const gradientColors = isReceita 
-            ? ['#d1fae5', '#a7f3d0'] 
-            : ['#fee2e2', '#fecaca'];
           const iconColor = isReceita ? '#10b981' : '#ef4444';
           const icon = isReceita ? 'arrow-up-circle' : 'arrow-down-circle';
 
           return (
-            <Surface key={lancamento.id} style={styles.lancamentoCard} elevation={2}>
-              <TouchableOpacity>
-                <LinearGradient
-                  colors={gradientColors}
-                  style={styles.lancamentoGradient}
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 1 }}
-                >
-                  <View style={styles.lancamentoContent}>
-                    <View style={styles.lancamentoLeft}>
-                      <View style={[styles.iconContainer, { backgroundColor: iconColor }]}>
-                        <Ionicons name={icon} size={24} color="#fff" />
-                      </View>
-                      <View style={styles.lancamentoInfo}>
-                        <Title style={styles.lancamentoDescricao}>
-                          {lancamento.descricao}
-                        </Title>
-                        <View style={styles.lancamentoMeta}>
-                          <Ionicons name="pricetag" size={12} color="#6b7280" />
-                          <Paragraph style={styles.categoria}>
-                            {lancamento.categoria}
-                          </Paragraph>
-                          <Paragraph style={styles.data}> • {lancamento.data}</Paragraph>
-                        </View>
-                      </View>
-                    </View>
-                    <View style={styles.valorContainer}>
-                      <Title style={[styles.valor, { color: iconColor }]}>
-                        {isReceita ? '+' : '-'} R$ {lancamento.valor.toFixed(2)}
-                      </Title>
-                    </View>
+            <Surface key={lancamento.id} style={styles.lancamentoCard} elevation={1}>
+              <View style={styles.lancamentoContent}>
+                <View style={[styles.iconContainer, { backgroundColor: iconColor }]}>
+                  <Ionicons name={icon} size={20} color="#fff" />
+                </View>
+                <View style={styles.lancamentoInfo}>
+                  <Title style={styles.lancamentoDescricao}>{lancamento.descricao}</Title>
+                  <View style={styles.lancamentoMeta}>
+                    <Ionicons name="pricetag" size={11} color="#9ca3af" />
+                    <Paragraph style={styles.categoria}> {lancamento.categoria}</Paragraph>
+                    <Paragraph style={styles.data}> • {lancamento.data}</Paragraph>
                   </View>
-                </LinearGradient>
-              </TouchableOpacity>
+                </View>
+                <Title style={[styles.valor, { color: iconColor }]}>
+                  {isReceita ? '+' : '-'} R$ {lancamento.valor.toFixed(0)}
+                </Title>
+              </View>
             </Surface>
           );
         })}
       </ScrollView>
 
-      {/* Botão flutuante para novo lançamento */}
+      {/* Botão flutuante */}
       <TouchableOpacity style={styles.fab}>
         <LinearGradient
           colors={['#8b5cf6', '#7c3aed']}
           style={styles.fabGradient}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
         >
-          <Ionicons name="add" size={28} color="#fff" />
+          <Ionicons name="add" size={26} color="#fff" />
         </LinearGradient>
       </TouchableOpacity>
     </View>
@@ -165,63 +131,65 @@ const styles = StyleSheet.create({
     backgroundColor: '#f9fafb',
   },
   resumoSection: {
-    padding: 16,
-    gap: 12,
+    padding: 12,
+    gap: 10,
+  },
+  resumoRow: {
+    flexDirection: 'row',
+    gap: 10,
   },
   resumoCard: {
-    borderRadius: 16,
+    flex: 1,
+    borderRadius: 14,
     overflow: 'hidden',
   },
   resumoGradient: {
-    padding: 16,
-  },
-  resumoHeader: {
-    flexDirection: 'row',
+    padding: 14,
     alignItems: 'center',
-    gap: 12,
-    marginBottom: 8,
+    minHeight: 100,
+    justifyContent: 'center',
   },
   resumoLabel: {
     color: '#fff',
-    fontSize: 16,
-    fontWeight: '600',
+    fontSize: 11,
+    marginTop: 6,
+    opacity: 0.95,
+    fontWeight: '500',
   },
   resumoValue: {
     color: '#fff',
-    fontSize: 28,
+    fontSize: 20,
     fontWeight: 'bold',
+    marginTop: 2,
   },
   saldoCard: {
-    borderRadius: 16,
+    borderRadius: 14,
     overflow: 'hidden',
   },
   saldoGradient: {
-    padding: 20,
+    padding: 16,
     alignItems: 'center',
-  },
-  saldoHeader: {
-    alignItems: 'center',
-    marginBottom: 12,
   },
   saldoLabel: {
     color: '#fff',
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: '600',
     marginTop: 8,
   },
   saldoValue: {
     color: '#fff',
-    fontSize: 36,
+    fontSize: 30,
     fontWeight: 'bold',
+    marginTop: 4,
   },
   saldoSubtext: {
     color: '#fff',
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: '500',
     marginTop: 4,
   },
   filterSection: {
-    padding: 16,
+    padding: 12,
     paddingTop: 0,
   },
   segmentedButtons: {
@@ -229,37 +197,29 @@ const styles = StyleSheet.create({
   },
   lancamentosSection: {
     flex: 1,
-    padding: 16,
+    padding: 12,
   },
   sectionTitle: {
-    fontSize: 20,
+    fontSize: 17,
     fontWeight: 'bold',
     color: '#1f2937',
-    marginBottom: 12,
+    marginBottom: 10,
   },
   lancamentoCard: {
-    marginBottom: 12,
-    borderRadius: 16,
-    overflow: 'hidden',
-  },
-  lancamentoGradient: {
-    padding: 16,
+    marginBottom: 8,
+    borderRadius: 12,
+    backgroundColor: '#fff',
   },
   lancamentoContent: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-  },
-  lancamentoLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-    flex: 1,
+    padding: 12,
+    gap: 10,
   },
   iconContainer: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
+    width: 38,
+    height: 38,
+    borderRadius: 19,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -267,47 +227,43 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   lancamentoDescricao: {
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: 'bold',
     color: '#1f2937',
-    marginBottom: 4,
+    marginBottom: 3,
   },
   lancamentoMeta: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 4,
   },
   categoria: {
-    fontSize: 12,
+    fontSize: 11,
     color: '#6b7280',
     fontWeight: '500',
   },
   data: {
-    fontSize: 12,
+    fontSize: 11,
     color: '#9ca3af',
   },
-  valorContainer: {
-    alignItems: 'flex-end',
-  },
   valor: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
   },
   fab: {
     position: 'absolute',
-    bottom: 24,
-    right: 24,
-    borderRadius: 28,
-    elevation: 8,
+    bottom: 20,
+    right: 20,
+    borderRadius: 26,
+    elevation: 6,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
+    shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.3,
-    shadowRadius: 8,
+    shadowRadius: 6,
   },
   fabGradient: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
+    width: 52,
+    height: 52,
+    borderRadius: 26,
     justifyContent: 'center',
     alignItems: 'center',
   },
